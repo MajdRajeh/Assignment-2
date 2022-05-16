@@ -1,135 +1,24 @@
-#include<iostream>
-#include "Header.h"
+#ifndef HEADER_H
+#define HEADER_H
+#include <iostream>
 using namespace std;
 
-template <class T>
-Queue<T>::Queue(int sz) {
+template < class T>
+class Queue {
+private:
+	int Size;
+	int head;
+	int tail;
+	T* queuePtr;
 
-	Size = (sz > 0 ? sz : 10);
-	head = -1;
-	tail = -1;
-	queuePtr = new T[Size];
-}
+public:
+	Queue(int);
+	~Queue(){ delete[] queuePtr; }
+	bool enqueue(const T&);
+	bool dequeue(T&);
+	T peek();
+	bool isEmpty()const;
+	bool isFull()const;
+};
 
-template <class T>
-T Queue<T>::peek(){ 
-	return queuePtr[head]; 
-}
-
-template <class T>
-bool Queue<T> ::isEmpty()const {
-	if (head == -1)
-        return true;
-    else
-        return false;
-}
-
-template <class T>
-bool Queue<T> ::isFull()const {
-	if (tail == Size - 1 && head == 0)
-	{
-        return true;
-    }
-    return false;
-}
-
-template <class T>
-bool Queue<T>::enqueue(const T& Element) {
-
-	if (!isFull())
-	{
-		if (head == -1) {
-			head = 0;
-		}
-
-		queuePtr[++tail] = Element;
-
-		return true;
-	}
-	return false;
-}
-
-template <class T>
-bool Queue<T>::dequeue(T& PElement) {
-
-	if (!isEmpty())
-	{
-		PElement = queuePtr[head++];
-		if (head > tail) 
-		{ 
-			head = -1;
-			tail = -1;
-		}
-
-		return true;
-
-	}
-	return false;
-}
-
-
-
-int main() {
-	Queue<int> queue1(7);
-	int x = 2;
-
-	Queue<double> queue2(6);
-	double y = 3.6;
-
-	cout << "Queue 1 : " << endl;
-	cout << "---------" << endl << endl;
-
-	cout << "Elements : " << endl;
-	while (queue1.enqueue(x))
-		cout << x++ << "  ";
-
-	cout << endl << endl;
-	cout << "Head of queue 1 : " << queue1.peek();
-	cout << endl << endl;
-
-
-	cout << "Popping elements : " << endl;
-	while (queue1.dequeue(x))
-		cout << x-- << "  ";
-
-
-	cout << endl << "____________________________________________________________" << endl << endl;
-	cout << "Queue 2 : " << endl;
-	cout << "---------" << endl << endl;
-
-	cout << "Elements : " << endl;
-	while (queue1.enqueue(x))
-		cout << x++ << "  ";
-
-	cout << endl << endl;
-	cout << "Head of queue 2 : " << queue1.peek() << endl;
-	cout << endl;
-
-	cout << "Popping elements : " << endl;
-
-	while (queue1.dequeue(x))
-		cout << x-- << "  ";
-
-	cout << endl << "____________________________________________________________" << endl << endl;
-	cout << "Queue 3 : " << endl;
-	cout << "---------" << endl << endl;
-
-	cout << "Elements : " << endl;
-
-	while (queue2.enqueue(y))
-		cout << y++ << "  ";
-
-	cout << endl << endl;
-	cout << "Head of queue 3 : " << queue2.peek() << endl;
-	cout << endl;
-
-	cout << "Popping elements : " << endl;
-
-	while (queue2.dequeue(y))
-		cout << y-- << "  ";
-
-	cout << endl << "____________________________________________________________" << endl;
-
-	return 0;
-
-}
+#endif
